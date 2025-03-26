@@ -100,4 +100,4 @@ def generate_all_features(max_features=0):
 
 # generate all features
 if __name__ == "__main__":
-    generate_all_features(1)
+    generate_all_features()
