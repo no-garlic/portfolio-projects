@@ -17,3 +17,5 @@ python-dotenv==1.0.0
 tiktoken==0.9.0
 faiss-cpu==1.10.0
 openai==1.65.2
+markdown
+fpdf2
