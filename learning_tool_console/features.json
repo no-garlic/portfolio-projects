@@ -1,4 +1,7 @@
 {
+    "cmake": {
+        "01_cmake": "setting up c++ projects in visual studio code with cmake"
+    },
     "c++11": {
         "01_move_semantics": "move semantics (std::move, std::forward)",
         "02_rvalue_references": "rvalue references (T&& for move semantics and perfect forwarding)",
