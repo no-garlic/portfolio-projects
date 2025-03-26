@@ -24,17 +24,17 @@ from langchain.chains.question_answering import load_qa_chain
 
 class PdfSearchRagApp:
     def __init__(self):
-        """Initialize the PDF Search RAG Application."""
-        pass
+        """
+        Initialize the Application.
+        """
+        # load environment variables and get the LLM keys
+        load_dotenv()
+
 
     def streamlit_main(self, subpage=False):
         """
         Main function to run the Streamlit app.
         """
-        # load environment variables and get the OpenAI API key
-        load_dotenv()
-        api_key = os.getenv("OPENAI_API_KEY")
-
         # set the page title and header unless this is a subpage
         if not subpage:
             st.set_page_config(page_title="Load PDF for semantic search")
