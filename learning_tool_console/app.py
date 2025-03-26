@@ -9,17 +9,26 @@ import json
 import os
 
 
-MODELS = ["gemma3:1b", "gemma3:12b", "qwen2.5-coder:7b", "deepseek-r1:14b"]
+#MODELS = ["gemma3:1b", "gemma3:12b", "qwen2.5-coder:7b", "deepseek-r1:14b", "claude-3-7-sonnet-latest"]
+MODELS = ["claude-3-7-sonnet-latest"]
+
+
+def get_llm(model):
+    if model.startswith("claude"):
+        return ChatAnthropic(
+            model=model,
+            max_tokens=20000,
+            thinking={"type": "enabled", "budget_tokens": 2048}
+        )
+    else:
+        return ChatOllama(
+            model=model
+        )
 
 
 def generate_feature(model, section_name, feature_name, filename):
     # Get the LLM instance
-    llm = ChatOllama(
-        model=model,
-        #temperature=0.4,
-        #top_p=0.95,
-        #max_tokens=10000
-    )
+    llm = get_llm(model)
 
     # and load the prompts from the YAML file
     with open("prompts.yaml", "r") as prompts_file:
@@ -36,8 +45,14 @@ def generate_feature(model, section_name, feature_name, filename):
 
     response = llm.invoke(prompt)
 
-    with open(filename, "w") as file:
-        file.write(response.content)
+    try:
+        content = response.content[1]['text']
+        with open(filename, "w") as file:
+            file.write(content)
+    except:
+        content = response.content
+        with open(filename, "w") as file:
+            file.write(content)
 
 
 def generate_all_features_for_model(model, data, max_features=0):
@@ -52,10 +67,6 @@ def generate_all_features_for_model(model, data, max_features=0):
                 if max_features > 0 and feature_count >= max_features:
                     return
 
-                # create the model folder if it does not exist
-                #if not os.path.exists(model_name):
-                #    os.makedirs(model_name)
-
                 # create the section folder if it does not exist
                 if not os.path.exists(section_name):
                     os.makedirs(section_name)
@@ -64,6 +75,11 @@ def generate_all_features_for_model(model, data, max_features=0):
                 filename = feature[0]
                 feature_name = feature[1]
                 filename = f"{section_name}/{filename}.md"
+
+                # check if the file already exists, and skip it if it does
+                if os.path.exists(filename):
+                    print(f"File {filename} already exists, skipping")
+                    continue
 
                 # generate the feature
                 print(f'Generating {filename} for "{feature_name}"')
