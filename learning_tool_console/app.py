@@ -3,26 +3,22 @@ from langchain_anthropic import ChatAnthropic
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import ChatOllama
 from langchain_core.messages import SystemMessage, HumanMessage
+
 import yaml
 import json
 import os
 
 
-# Configuration
-MAX_TOKENS = 200
-TEMPERATURE = 0.4
-TOP_P = 0.95
-MODEL = "gemma3:1b"
-FEATURES_FILENAME = "features.json"
+MODELS = ["gemma3:1b", "gemma3:12b", "qwen2.5-coder:7b", "deepseek-r1:14b"]
 
 
-def generate_feature(section_name, feature_name, filename):
+def generate_feature(model, section_name, feature_name, filename):
     # Get the LLM instance
     llm = ChatOllama(
-        model=MODEL,
-        temperature=TEMPERATURE,
-        top_p=TOP_P,
-        max_tokens=MAX_TOKENS
+        model=model,
+        #temperature=0.4,
+        #top_p=0.95,
+        #max_tokens=10000
     )
 
     # and load the prompts from the YAML file
@@ -44,36 +40,48 @@ def generate_feature(section_name, feature_name, filename):
         file.write(response.content)
 
 
+def generate_all_features_for_model(model, data, max_features=0):
+        feature_count = 0
+        model_name = model.replace(":", "_")
+        # iterate over the sections and features
+        for section in data.items():
+            section_name = f"output/{model_name}/{section[0]}"
+
+            for feature in section[1].items():
+                # check if we reached the maximum number of features
+                if max_features > 0 and feature_count >= max_features:
+                    return
+
+                # create the model folder if it does not exist
+                #if not os.path.exists(model_name):
+                #    os.makedirs(model_name)
+
+                # create the section folder if it does not exist
+                if not os.path.exists(section_name):
+                    os.makedirs(section_name)
+
+                # generate the filename and the feature name
+                filename = feature[0]
+                feature_name = feature[1]
+                filename = f"{section_name}/{filename}.md"
+
+                # generate the feature
+                print(f'Generating {filename} for "{feature_name}"')
+                generate_feature(model, section_name, feature_name, filename)
+                feature_count += 1
+
+
 def generate_all_features(max_features=0):
     # open the features file and read the data from it with json
-    with open(FEATURES_FILENAME, "r") as file:
+    with open("features.json", "r") as file:
         data = json.load(file)
 
-    feature_count = 0
-
-    # iterate over the sections and features
-    for section in data.items():
-        section_name = section[0]
-        for feature in section[1].items():
-            # check if we reached the maximum number of features
-            if max_features > 0 and feature_count >= max_features:
-                return
-
-            # create the folder if it does not exist
-            if not os.path.exists(section_name):
-                os.makedirs(section_name)
-
-            # generate the filename and the feature name
-            filename = feature[0]
-            feature_name = feature[1]
-            filename = f"{section_name}/{filename}.md"
-
-            # generate the feature
-            print(f'Generating {filename} for "{feature_name}"')
-            generate_feature(section_name, feature_name, filename)
-            feature_count += 1
+    # generate the features for each model
+    for model in MODELS:
+        print(f"Generating features for {model}")
+        generate_all_features_for_model(model, data, max_features)
 
 
 # generate all features
 if __name__ == "__main__":
-    generate_all_features()
+    generate_all_features(1)
