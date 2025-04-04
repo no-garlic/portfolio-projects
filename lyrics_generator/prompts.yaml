@@ -1,0 +1,74 @@
+"role": |-
+ You are an expert songwriter with over two decades of experience creating chart-topping hits across multiple genres, particularly pop.
+ You excel at crafting songs that are both relatable and original, with hooks that get stuck in listeners heads.
+
+
+"song_names": |-
+ You are tasked with generating exactly {count} catchy pop song names.
+
+ The song should be happy, positive, inspirational, motivational, empowering. 
+ Don't use futuristic, electric, cyber, or computer themes or words.
+ Generate a range of different length song names, from 1 word to 5 words in length.
+ Ensure each song name uses correct song case, that is all words starting with an uppercase letter.
+
+ Do not generate any names that are in this list:
+ {history}
+
+ You must respond with the exact JSON formatted structure: 
+ {{"song1": "", "song2:, "", ... , "song{count}": ""}}.
+ Do not alter the structure, just fill in the blanks "" and add entries into the structure for all {count} songs.
+
+
+"song_theme": |-
+ Create a 4 sentence song description for an upbeat catchy pop song called "{song_name}".
+
+ The song theme should embody the essence of modern pop music, focusing on themes that resonate with a wide audience,
+ such as inspiration, empowerment, joy, self-discovery, happiness, or positivity.
+ The song description should have a balance of emotional depth and playful energy to ensure it captivates listeners.
+
+ The song description you generate must be a single paragraph, containing the following 4 sentences:
+ 1) The first sentence is a description of what the song is about to establish the context of the song.
+ 2) The second sentence tells a descriptive narrative of the song.
+ 3) The third sentence adds more detail to the second sentence, continuing to expand on the narrative of the song.
+ 4) The fourth sentence describes the mood and emotion of the song.
+
+ You must respond with the exact JSON formatted structure: {{"theme": "<song description goes here>"}}
+ Do not alter the structure, just replace the text <song description goes here> with the song description that you generated.
+ Do not use futuristic, electric, cyber, or computer themes or words such as "neon" or "electric".
+
+
+"full_song": |-
+ You are tasked with creating engaging and memorable song lyrics for an upbeat catchy pop song.
+ The song lyrics should embody the essence of modern pop music, focusing on themes that resonate with a wide audience,
+ such as inspiration, empowerment, joy, self-discovery, happiness, or positivity.
+ The song lyrics should have a balance of emotional depth and playful energy to ensure it captivates listeners.
+
+ The song's name is: "{song_name}".
+ {song_theme}
+
+ You must generate lyrics for these sections of the song:
+ - Verse 1: Introduce the theme with vivid imagery or storytelling.
+ - Pre-Chorus: Build anticipation with lyrics that heighten emotional or narrative tension.
+ - Chorus: Create a powerful, catchy hook that captures the song's main message. Keep it simple and repetitive enough for listeners to sing along.
+ - Verse 2: Expand on the theme with new details or a progression in the story.
+ - Bridge: Add contrast to the song by introducing a twist or a fresh perspective.
+ - Outro: Conclude the song with a memorable final line or reprise of the chorus.
+
+ Do not use futuristic, electric, cyber, or computer themes or words such as "neon" or "electric".
+ In addition use the words “chasing” and “endless” sparingly.
+
+ All lines of lyrics should have between 4 and 6 words per line, or be complete lines of vocalisation.
+ Keep the lyrics short, no more than 10 syllables per line. 
+
+ Vocalisation from backup singers should be written within brackets, for example (Ooh-Aah).
+ Only use the following vocalisations (Ah, Ahh, Oh, Ooh, Whoa).
+ Include a lot of vocalisation in the chorus.
+ Include some other vocalisation throughout the song, both for the lead singer (without brackets) and from backup singers (inside of brackets).
+
+ Use rhyme and rhythm creatively to enhance the song's flow and ensure the lyrics align with a pop music style.
+ Incorporate relatable emotions, modern slang, or cultural references to make the song feel current and authentic.
+
+ You must respond with the exact JSON formatted structure for the lyrics: 
+ {{"verse1": "", "verse2": "", "prechorus": "", "chorus": "", "bridge": "", "outro": ""}}.
+ Do not alter the structure, just fill in the blanks "" with the lyrics.
+

@@ -1,0 +1,44 @@
+pop_song: |-
+ [Short Instrumental Intro]
+ 
+ [Verse 1]
+ @verse1
+ 
+ [Melodic Interlude]
+
+ [Pre-Chorus]
+ @prechorus
+
+ [Chorus]
+ @chorus
+
+ [Verse 2]
+ @verse2
+ 
+ [Melodic Interlude]
+
+ [Pre-Chorus]
+ @prechorus
+
+ [Chorus]
+ @chorus
+
+ [Solo]
+
+ [Bridge]
+ @bridge
+
+ [Chorus]
+ @chorus
+
+ [Solo]
+
+ [Outro]
+ @outro
+
+ [Final Chorus]
+ @chorus
+
+ [Refrain]
+
+ [End]
