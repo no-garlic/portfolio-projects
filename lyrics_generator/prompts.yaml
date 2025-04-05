@@ -26,14 +26,14 @@
  such as inspiration, empowerment, joy, self-discovery, happiness, or positivity.
  The song description should have a balance of emotional depth and playful energy to ensure it captivates listeners.
 
- The song description you generate must be a single paragraph, containing the following 4 sentences:
+ The song description you generate must containing the following 4 sentences:
  1) The first sentence is a description of what the song is about to establish the context of the song.
  2) The second sentence tells a descriptive narrative of the song.
  3) The third sentence adds more detail to the second sentence, continuing to expand on the narrative of the song.
  4) The fourth sentence describes the mood and emotion of the song.
 
- You must respond with the exact JSON formatted structure: {{"theme": "<song description goes here>"}}
- Do not alter the structure, just replace the text <song description goes here> with the song description that you generated.
+ You must respond with the exact JSON formatted structure: {{"description": "xxx", "narrative1": "xxx", "narrative2": "xxx", "mood": "xxx"}}
+ Do not alter the structure, just replace the text within the "xxx" strings with the sentences that you generated.
  Do not use futuristic, electric, cyber, or computer themes or words such as "neon" or "electric".
 
 

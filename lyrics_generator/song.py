@@ -1,21 +1,14 @@
 import json
 import yaml
 
-from enum import StrEnum
 from model import Model
 from pprint import pprint
 
 
-class SongSection(StrEnum):
-    VERSE1 = "@verse1"
-    VERSE2 = "@verse2"
-    PRECHORUS = "@prechorus"
-    CHORUS = "@chorus"
-    BRIDGE = "@bridge"
-    OUTRO = "@outro"
-
-
 class Song:
+    """
+    Represents a song with a structure, name, theme, and lyrics.
+    """
     def __init__(self, song_structure="pop_song"):
         self.name = ""
         self.theme = ""
@@ -42,6 +35,10 @@ class Song:
         self.theme = theme
 
 
+    def get_song_structure(self) -> str:
+        return self.song_structure
+
+
     def set_lyrics(self, lyrics: dict):
         self.lyrics = lyrics
 
@@ -54,25 +51,58 @@ class Song:
         return len(self.lyrics.keys()) > 0
 
 
-    def get_section_lyrics(self, section: SongSection) -> str:
-        section_name_json = section.value.strip("@")
-        return self.lyrics[section_name_json]
+    def get_section_lyrics(self, section_name: str) -> str:
+        section_name_json = section_name.strip("@")
+        return self.lyrics[section_name_json].strip()
 
 
-    def set_section_lyrics(self, section: SongSection, lyrics: str):
-        section_name_json = section.value.strip("@")
+    def set_section_lyrics(self, section_name: str, lyrics: str):
+        section_name_json = section_name.strip("@")
         self.lyrics[section_name_json] = lyrics
 
 
     def export_lyrics(self) -> str:
         song_listing = self.song_structure
 
-        for section in SongSection:
+        #TODO: change [] with a list of sections from the song structure
+
+
+        for section in []:
             section_name_yaml = section.value
             section_name_json = section.value.strip("@")
-            song_listing = song_listing.replace(section_name_yaml, self.lyrics[section_name_json])
+            section_lyrics = self.lyrics[section_name_json].strip()
+            song_listing = song_listing.replace(section_name_yaml, section_lyrics)
 
         return song_listing
+    
+    def save_to_file(self, path = "songs", filename = ""):
+        """
+        Save the song's name, theme, and lyrics to a JSON file.
+        """
+        song_data = {
+            "name": self.name,
+            "theme": self.theme,
+            "lyrics": self.lyrics
+        }
+
+        if len(filename) == 0:
+            filename = self.get_name().replace(" ", "_").lower() + ".json"
+
+        filepath = path + "/" + filename
+
+        with open(filepath, "w") as file:
+            json.dump(song_data, file, indent=4)
+
+    def load_from_file(self, path = "songs", filename = ""):
+        """
+        Load the song's name, theme, and lyrics from a JSON file.
+        """
+        filepath = path + "/" + filename
+        with open(filepath, "r") as file:
+            song_data = json.load(file)
+            self.name = song_data.get("name", "")
+            self.theme = song_data.get("theme", "")
+            self.lyrics = song_data.get("lyrics", {})
 
 
 if __name__ == "__main__":
